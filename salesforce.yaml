@@ -1,0 +1,38 @@
+sp:
+  salesforce:
+    name: Salesforce
+    description: Salesforce Customer Relationship Management (CRM)
+    relay_state: /
+    login_url: https://example.my.salesforce.com
+    logout_url: https://example.lightning.force.com/secur/logout.jsp
+    metadata: >-
+      <?xml version="1.0" encoding="UTF-8"?>
+      <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" entityID="https://saml.salesforce.com" validUntil="2026-12-13T11:59:26.365Z">
+        <md:SPSSODescriptor AuthnRequestsSigned="true" WantAssertionsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+          <md:KeyDescriptor use="signing">
+            <ds:KeyInfo>
+              <ds:X509Data>
+                <ds:X509Certificate>***</ds:X509Certificate>
+              </ds:X509Data>
+            </ds:KeyInfo>
+          </md:KeyDescriptor>
+          <md:KeyDescriptor use="encryption">
+            <ds:KeyInfo>
+              <ds:X509Data>
+                <ds:X509Certificate>***</ds:X509Certificate>
+              </ds:X509Data>
+            </ds:KeyInfo>
+          </md:KeyDescriptor>
+          <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
+          <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://example.my.salesforce.com?so=00D4C0000000heS&amp;sc=0LE4C000000Gn1F" index="0" isDefault="true"/>
+          <md:AttributeConsumingService index="0" isDefault="true">
+            <md:ServiceName xml:lang="en">Salesforce.com</md:ServiceName>
+            <md:RequestedAttribute Name="urn:oid:0.9.2342.19200300.100.1.3" isRequired="true"/>
+          </md:AttributeConsumingService>
+        </md:SPSSODescriptor>
+      </md:EntityDescriptor>
+    sign_response: true
+    sign_assertion: true
+    encrypt_assertion: true
+    authorize:
+    - - email: ^[^@]+@example.com$

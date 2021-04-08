@@ -1,0 +1,27 @@
+sp:
+  bamboo:
+    name: bamboo
+    description: Bamboo
+    relay_state: ""
+    login_url: http://bamboo.example.com/userlogin!doDefault.action
+    logout_url: http://bamboo.example.com/userLogout.action
+    metadata: >-
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!-- bamboo doesnt provide a link to download its sp metadata, so
+            this is hand-crafted -->
+      <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="http://bamboo.example.com">
+        <md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+          <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</md:NameIDFormat>
+          <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://bamboo.example.com/plugins/servlet/saml/auth" index="0"/>
+        </md:SPSSODescriptor>
+      </md:EntityDescriptor>
+    sign_response: true
+    sign_assertion: false
+    encrypt_assertion: false
+    user_id_transform:
+    - search: ^([^@]+)@[^@]+$
+      replace: $1
+    authorize:
+    - - email: ^[^@]+@example.com$
+    profile:
+      attribute: empty

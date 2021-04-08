@@ -1,0 +1,28 @@
+sp:
+  expensify:
+    name: expensify
+    description: expensify
+    relay_state: ""
+    login_url: https://www.expensify.com/authentication/saml/loginCallback?domain=example.com
+    logout_url: https://www.expensify.com/authentication/saml/logoutCallback?domain=example.com
+    metadata: >-
+      <?xml version="1.0"?>
+      <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2017-02-09T17:03:03Z" cacheDuration="PT604800S" entityID="https://www.expensify.com">
+        <md:SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+          <md:KeyDescriptor use="signing">
+            <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+              <ds:X509Data>
+                <ds:X509Certificate>***</ds:X509Certificate>
+              </ds:X509Data>
+            </ds:KeyInfo>
+          </md:KeyDescriptor>
+          <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://www.expensify.com/authentication/saml/logoutCallback?domain=example.com"/>
+          <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</md:NameIDFormat>
+          <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://www.expensify.com/authentication/saml/loginCallback?domain=example.com" index="1"/>
+        </md:SPSSODescriptor>
+      </md:EntityDescriptor>
+    sign_response: true
+    sign_assertion: true
+    encrypt_assertion: false
+    authorize:
+    - - email: ^[^@]+@example.com$

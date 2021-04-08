@@ -1,0 +1,7 @@
+pages:
+  error:
+    template: <!-- Insert your HTML here -->
+  logout:
+    template: <!-- Insert your HTML here -->
+  services:
+    template: <!-- Insert your HTML here -->

@@ -1,0 +1,4 @@
+session:
+  store:
+    memory:
+      cleanup_interval: 60

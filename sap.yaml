@@ -1,0 +1,32 @@
+sp:
+  sap:
+    name: SAP
+    description: SAP HANA is an in-memory platform for processing high volumes of
+      data in real-time
+    relay_state: ""
+    login_url: https://aacockpitc4pa-p1234567890example.hanatrial.ondemand.com/com.sap.aa.hcp.cockpit
+    logout_url: https://aacockpitc4pa-p1234567890example.hanatrial.ondemand.com
+    metadata: >-
+      <?xml version="1.0"?>
+      <ns3:EntityDescriptor xmlns:ns2="http://www.w3.org/2001/04/xmlenc#" xmlns="http://www.w3.org/2000/09/xmldsig#" xmlns:ns4="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ns3="urn:oasis:names:tc:SAML:2.0:metadata" ID="0EXAMPLE0-1234-1234-1234-123456789012" entityID="https://hanatrial.ondemand.com/p1234567890example">
+        <ns3:SPSSODescriptor AuthnRequestsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+          <ns3:KeyDescriptor use="signing">
+            <KeyInfo>
+              <KeyName>https://hanatrial.ondemand.com/p1234567890example</KeyName>
+              <X509Data>
+                <X509Certificate>***</X509Certificate>
+              </X509Data>
+            </KeyInfo>
+          </ns3:KeyDescriptor>
+          <ns3:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://authn.hanatrial.ondemand.com/saml2/sp/slo/p1234567890example/p1234567890example"/>
+          <ns3:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://authn.hanatrial.ondemand.com/saml2/sp/slo/p1234567890example/p1234567890example"/>
+          <ns3:AssertionConsumerService index="0" isDefault="true" Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://authn.hanatrial.ondemand.com/saml2/sp/acs/p1234567890example/p1234567890example"/>
+        </ns3:SPSSODescriptor>
+      </ns3:EntityDescriptor>
+    sign_response: true
+    sign_assertion: true
+    encrypt_assertion: false
+    authorize:
+    - - email: ^[^@]+@example.com$
+    profile:
+      attribute: empty

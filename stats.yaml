@@ -1,0 +1,4 @@
+stats:
+  prefix: miracl-sso
+  network: udp
+  address: :8125

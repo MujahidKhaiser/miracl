@@ -1,0 +1,32 @@
+sp:
+  example_sp:
+    name: example
+    description: An example SAML service provider configuration
+    relay_state: /
+    login_url: http://example.com/login
+    logout_url: http://example.com/logout
+    metadata: >-
+      <?xml version="1.0" encoding="UTF-8"?>
+      <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="https://example.com">
+        <md:SPSSODescriptor WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+          <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
+          <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://example.com" index="0"/>
+        </md:SPSSODescriptor>
+      </md:EntityDescriptor>
+    authorize: true
+#    authorize:
+#    - - ldap: ldap_profile
+#    profile:
+#      attribute: example_sp
+
+#profile:
+#  attribute:
+#    example_sp: >-
+#      <AttributeStatement>
+#        <Attribute FriendlyName="eduPersonPrincipalName" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+#          <AttributeValue xmlns:XMLSchema-instance="http://www.w3.org/2001/XMLSchema-instance" XMLSchema-instance:type="xs:string">{{.SessionUserEmail}}</AttributeValue>
+#        </Attribute>
+#        <Attribute FriendlyName="staffID" Name="urn:oid:2.5.4.42" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+#          <AttributeValue xmlns:XMLSchema-instance="http://www.w3.org/2001/XMLSchema-instance" XMLSchema-instance:type="xs:string">{{AttrVal "staffID" 0 "" .Attributes}}</AttributeValue>
+#        </Attribute>
+#      </AttributeStatement>

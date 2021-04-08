@@ -1,0 +1,55 @@
+profile:
+  assertion:
+    zabbix: >-
+      <Assertion xmlns="urn:oasis:names:tc:SAML:2.0:assertion" ID="{{.ID}}" IssueInstant="{{.TimeNow}}" Version="2.0" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#">
+        <Issuer xmlns="urn:oasis:names:tc:SAML:2.0:assertion" Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">{{.MetadataEntityID}}</Issuer>
+        {{if .Signature}}{{template "signature" .Signature}}{{end}}
+        <Subject>{{template "nameid" .}}
+          <SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+            <SubjectConfirmationData NotOnOrAfter="{{.TimeExpire}}" Address="10.10.24.66" Recipient="{{.Recipient}}" {{if not (eq .AuthnRequestID "")}}InResponseTo="{{.AuthnRequestID}}"{{end}}/>
+          </SubjectConfirmation>
+        </Subject>
+        <Conditions NotBefore="{{.TimeNow}}" NotOnOrAfter="{{.TimeExpire}}">
+          <AudienceRestriction>
+            <Audience>{{.SPEntityID}}</Audience>
+          </AudienceRestriction>
+        </Conditions>
+        <AuthnStatement AuthnInstant="{{.SessionCreateTime}}">
+          <SubjectLocality Address="{{.RemoteAddress}}" />
+          <AuthnContext>
+            <AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</AuthnContextClassRef>
+          </AuthnContext>
+        </AuthnStatement>{{template "attribute" .}}
+      </Assertion>
+sp:
+  zabbix:
+    name: Zabbix
+    description: Zabbix
+    relay_state: ""
+    login_url: http://zabbix.example.com/zabbix/mellon/postResponse
+    logout_url: http://zabbix.example.com/zabbix/index.php?reconnect=1
+    metadata: >-
+      <?xml version="1.0"?>
+      <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" validUntil="2019-02-08T11:43:53Z" entityID="http://zabbix.example.com/zabbix">
+        <md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+          <md:KeyDescriptor use="signing">
+            <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+              <ds:X509Data>
+                <ds:X509Certificate>***</ds:X509Certificate>
+              </ds:X509Data>
+            </ds:KeyInfo>
+          </md:KeyDescriptor>
+          <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://zabbix.example.com/zabbix/mellon/logout"/>
+          <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://zabbix.example.com/zabbix/mellon/postResponse" isDefault="true" index="0"/>
+        </md:SPSSODescriptor>
+      </md:EntityDescriptor>
+    sign_response: false
+    sign_assertion: true
+    encrypt_assertion: false
+    user_id_transform:
+    - search: ^([^@]+)@[^@]+$
+      replace: $1
+    authorize:
+    - - email: ^[^@]+@example.com$
+    profile:
+      assertion: zabbix

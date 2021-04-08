@@ -1,0 +1,33 @@
+profile:
+  nameid:
+    github: <NameID NameQualifier="{{.MetadataEntityID}}" SPNameQualifier="{{.SPEntityID}}" Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified">{{.SessionUserName}}</NameID>
+sp:
+  github:
+    name: github
+    description: Github
+    relay_state: ""
+    login_url: http://github.example.com
+    logout_url: http://github.example.com/logout
+    metadata: >-
+      <?xml version="1.0"?>
+      <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" validUntil="2017-02-28T16:46:25Z" entityID="http://github.example.com">
+        <md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol" AuthnRequestsSigned="true" WantAssertionsSigned="true">
+          <md:KeyDescriptor use="signing">
+            <ds:KeyInfo>
+              <ds:X509Data>
+                <ds:X509Certificate>***</ds:X509Certificate>
+              </ds:X509Data>
+            </ds:KeyInfo>
+          </md:KeyDescriptor>
+          <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
+          <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://github.example.com/saml/consume" isDefault="true" index="0"/>
+        </md:SPSSODescriptor>
+      </md:EntityDescriptor>
+    sign_response: false
+    sign_assertion: true
+    encrypt_assertion: false
+    authorize:
+    - - email: ^[^@]+@example.com$
+    profile:
+      nameid: github
+      attribute: empty

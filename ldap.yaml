@@ -1,0 +1,15 @@
+ldap:
+  server:
+    ldap_server:
+      method: plain
+      address: 127.0.0.1:389
+      user: cn=Directory Manager
+      password: secret
+  query:
+    ldap_profile:
+      server: ldap_server
+      search:
+      - dn: ou=people,dc=example,dc=com
+        filter: (mail={{.Email}})
+        attributes:
+        - staffID

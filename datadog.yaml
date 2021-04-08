@@ -1,0 +1,70 @@
+profile:
+  attribute:
+    datadog: >-
+      <AttributeStatement>{{ if not (eq .SessionUserEmail "")}}
+        <Attribute FriendlyName="eduPersonPrincipalName" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+          <AttributeValue xmlns:XMLSchema-instance="http://www.w3.org/2001/XMLSchema-instance" XMLSchema-instance:type="xs:string">{{.SessionUserEmail}}</AttributeValue>
+        </Attribute>
+        <Attribute FriendlyName="sn" Name="urn:oid:2.5.4.4" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+          <AttributeValue xmlns:XMLSchema-instance="http://www.w3.org/2001/XMLSchema-instance" XMLSchema-instance:type="xs:string">{{.SessionUserEmail}}
+        </AttributeValue>
+        </Attribute>
+        <Attribute FriendlyName="givenName" Name="urn:oid:2.5.4.42" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+          <AttributeValue xmlns:XMLSchema-instance="http://www.w3.org/2001/XMLSchema-instance" XMLSchema-instance:type="xs:string">{{.SessionUserEmail}}</AttributeValue>
+        </Attribute>{{end}}
+      </AttributeStatement>
+sp:
+  datadog:
+    name: datadog
+    description: Datadog
+    relay_state: ""
+    login_url: https://app.datadoghq.com/account/login/id/***
+    logout_url: https://app.datadoghq.com/account/logout
+    idp_initiated_acs_index: 0
+    metadata: >-
+      <?xml version="1.0" encoding="UTF-8"?>
+      <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="https://app.datadoghq.com/account/saml/metadata.xml">
+        <md:SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+          <md:KeyDescriptor use="signing">
+            <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+              <ds:X509Data>
+                <ds:X509Certificate>***</ds:X509Certificate>
+              </ds:X509Data>
+            </ds:KeyInfo>
+          </md:KeyDescriptor>
+          <md:KeyDescriptor use="encryption">
+            <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+              <ds:X509Data>
+                <ds:X509Certificate>***</ds:X509Certificate>
+              </ds:X509Data>
+            </ds:KeyInfo>
+          </md:KeyDescriptor>
+          <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://app.datadoghq.com/account/saml/assertion/id/***" index="1"/>
+          <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://app.datadoghq.com/account/saml/assertion" index="2"/>
+          <md:AttributeConsumingService index="1">
+            <md:ServiceName xml:lang="en"/>
+            <md:ServiceDescription xml:lang="en">Datadog</md:ServiceDescription>
+            <md:RequestedAttribute FriendlyName="sn" Name="urn:oid:2.5.4.4" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" isRequired="true"/>
+            <md:RequestedAttribute Name="givenName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" isRequired="true"/>
+            <md:RequestedAttribute Name="eduPersonPrincipalName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" isRequired="true"/>
+          </md:AttributeConsumingService>
+        </md:SPSSODescriptor>
+        <md:Organization>
+          <md:OrganizationName xml:lang="en">Datadog, Inc.</md:OrganizationName>
+          <md:OrganizationDisplayName xml:lang="en">Datadog, Inc.</md:OrganizationDisplayName>
+          <md:OrganizationURL xml:lang="en">http://www.datadoghq.com</md:OrganizationURL>
+        </md:Organization>
+        <md:ContactPerson contactType="technical">
+          <md:GivenName>Datadog</md:GivenName>
+          <md:SurName>Support</md:SurName>
+          <md:EmailAddress>support@datadoghq.com</md:EmailAddress>
+        </md:ContactPerson>
+      </md:EntityDescriptor>
+    sign_response: false
+    sign_assertion: true
+    encrypt_assertion: true
+    authorize:
+    - - email: ^[^@]+@example.com$
+    profile:
+      nameid: email
+      attribute: datadog

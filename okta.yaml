@@ -1,0 +1,53 @@
+sp:
+  okta:
+    name: Okta
+    description: Okta
+    relay_state: ""
+    login_url: https://example-admin.oktapreview.com
+    logout_url: https://example.oktapreview.com/login/signout
+    metadata: >-
+      <?xml version="1.0" encoding="UTF-8"?>
+      <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="https://www.okta.com/saml2/service-provider/spwxsapnhdxxuvslervq">
+        <md:SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+          <md:KeyDescriptor use="encryption">
+            <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+              <ds:X509Data>
+                <ds:X509Certificate>***</ds:X509Certificate>
+              </ds:X509Data>
+            </ds:KeyInfo>
+            <md:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes128-cbc"/>
+            <md:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes192-cbc"/>
+            <md:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc"/>
+            <md:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#tripledes-cbc"/>
+          </md:KeyDescriptor>
+          <md:KeyDescriptor use="signing">
+            <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+              <ds:X509Data>
+                <ds:X509Certificate>***</ds:X509Certificate>
+              </ds:X509Data>
+            </ds:KeyInfo>
+          </md:KeyDescriptor>
+          <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
+          <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</md:NameIDFormat>
+          <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</md:NameIDFormat>
+          <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+          <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://example.oktapreview.com/sso/saml2/0oab57cgwbhRcK08R0h7" index="0" isDefault="true"/>
+          <md:AttributeConsumingService index="0">
+            <md:ServiceName xml:lang="en-US"/>
+            <md:RequestedAttribute FriendlyName="First Name" Name="firstName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" isRequired="true"/>
+            <md:RequestedAttribute FriendlyName="Last Name" Name="lastName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" isRequired="true"/>
+            <md:RequestedAttribute FriendlyName="Email" Name="email" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" isRequired="true"/>
+            <md:RequestedAttribute FriendlyName="Mobile Phone" Name="mobilePhone" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" isRequired="false"/>
+          </md:AttributeConsumingService>
+        </md:SPSSODescriptor>
+        <md:Organization>
+          <md:OrganizationName xml:lang="en">dev-477193</md:OrganizationName>
+          <md:OrganizationDisplayName xml:lang="en">example</md:OrganizationDisplayName>
+          <md:OrganizationURL xml:lang="en">https://example.com</md:OrganizationURL>
+        </md:Organization>
+      </md:EntityDescriptor>
+    sign_response: true
+    sign_assertion: false
+    encrypt_assertion: false
+    authorize:
+    - - email: ^[^@]+@example.com$

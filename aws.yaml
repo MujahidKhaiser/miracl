@@ -1,0 +1,69 @@
+profile:
+  attribute:
+    aws: >-
+      <AttributeStatement>
+        <Attribute Name="https://aws.amazon.com/SAML/Attributes/Role" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+          <AttributeValue>arn:aws:iam::YOURAWSACCOUNTNUMBER:role/YOURSSOROLE,arn:aws:iam::YOURAWSACCOUNTNUMBER:saml-provider/YOURPROVIDER</AttributeValue>
+        </Attribute>
+        <Attribute Name="https://aws.amazon.com/SAML/Attributes/RoleSessionName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+          <AttributeValue>{{.SessionUserEmail}}</AttributeValue>
+        </Attribute>
+      </AttributeStatement>
+sp:
+  aws:
+    name: aws
+    description: Amazon Web Services (AWS) Cloud Computing
+    relay_state: ""
+    login_url: http://127.0.0.1:8000/login/aws
+    logout_url: https://console.aws.amazon.com/iam/logout!doLogout
+    metadata: >-
+      <?xml version="1.0"?>
+      <!-- https://signin.aws.amazon.com/static/saml-metadata.xml -->
+      <EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" entityID="urn:amazon:webservices" validUntil="2017-11-16T00:00:00Z">
+        <SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol" WantAssertionsSigned="true">
+          <KeyDescriptor use="signing">
+            <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+              <ds:X509Data>
+                <ds:X509Certificate>***</ds:X509Certificate>
+              </ds:X509Data>
+            </ds:KeyInfo>
+          </KeyDescriptor>
+          <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</NameIDFormat>
+          <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</NameIDFormat>
+          <AssertionConsumerService index="1" isDefault="true" Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://signin.aws.amazon.com/saml"/>
+          <AttributeConsumingService index="1">
+            <ServiceName xml:lang="en">AWS Management Console Single Sign-On</ServiceName>
+            <RequestedAttribute isRequired="true" Name="https://aws.amazon.com/SAML/Attributes/Role" FriendlyName="RoleEntitlement"/>
+            <RequestedAttribute isRequired="true" Name="https://aws.amazon.com/SAML/Attributes/RoleSessionName" FriendlyName="RoleSessionName"/>
+            <RequestedAttribute isRequired="false" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.1" FriendlyName="eduPersonAffiliation"/>
+            <RequestedAttribute isRequired="false" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.2" FriendlyName="eduPersonNickname"/>
+            <RequestedAttribute isRequired="false" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.3" FriendlyName="eduPersonOrgDN"/>
+            <RequestedAttribute isRequired="false" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.4" FriendlyName="eduPersonOrgUnitDN"/>
+            <RequestedAttribute isRequired="false" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.5" FriendlyName="eduPersonPrimaryAffiliation"/>
+            <RequestedAttribute isRequired="false" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" FriendlyName="eduPersonPrincipalName"/>
+            <RequestedAttribute isRequired="false" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.7" FriendlyName="eduPersonEntitlement"/>
+            <RequestedAttribute isRequired="false" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.8" FriendlyName="eduPersonPrimaryOrgUnitDN"/>
+            <RequestedAttribute isRequired="false" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.9" FriendlyName="eduPersonScopedAffiliation"/>
+            <RequestedAttribute isRequired="false" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.10" FriendlyName="eduPersonTargetedID"/>
+            <RequestedAttribute isRequired="false" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.11" FriendlyName="eduPersonAssurance"/>
+            <RequestedAttribute isRequired="false" Name="urn:oid:1.3.6.1.4.1.5923.1.2.1.2" FriendlyName="eduOrgHomePageURI"/>
+            <RequestedAttribute isRequired="false" Name="urn:oid:1.3.6.1.4.1.5923.1.2.1.3" FriendlyName="eduOrgIdentityAuthNPolicyURI"/>
+            <RequestedAttribute isRequired="false" Name="urn:oid:1.3.6.1.4.1.5923.1.2.1.4" FriendlyName="eduOrgLegalName"/>
+            <RequestedAttribute isRequired="false" Name="urn:oid:1.3.6.1.4.1.5923.1.2.1.5" FriendlyName="eduOrgSuperiorURI"/>
+            <RequestedAttribute isRequired="false" Name="urn:oid:1.3.6.1.4.1.5923.1.2.1.6" FriendlyName="eduOrgWhitePagesURI"/>
+            <RequestedAttribute isRequired="false" Name="urn:oid:2.5.4.3" FriendlyName="cn"/>
+          </AttributeConsumingService>
+        </SPSSODescriptor>
+        <Organization>
+          <OrganizationName xml:lang="en">Amazon Web Services, Inc.</OrganizationName>
+          <OrganizationDisplayName xml:lang="en">AWS</OrganizationDisplayName>
+          <OrganizationURL xml:lang="en">https://aws.amazon.com</OrganizationURL>
+        </Organization>
+      </EntityDescriptor>
+    sign_response: true
+    sign_assertion: true
+    encrypt_assertion: false
+    authorize:
+    - - email: ^[^@]+@example.com$
+    profile:
+      attribute: aws

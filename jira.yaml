@@ -1,0 +1,20 @@
+sp:
+  jira:
+    name: jira
+    description: Jira issue tracking system
+    relay_state: ""
+    login_url: http://jira.example.com/plugins/servlet/samlsso
+    logout_url: http://jira.example.com/logout
+    metadata: >-
+      <?xml version="1.0" encoding="UTF-8"?>
+      <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="http://jira.example.com/plugins/servlet/samlsso">
+        <md:SPSSODescriptor WantAssertionsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+          <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
+          <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://jira.example.com/plugins/servlet/samlsso" index="0"/>
+        </md:SPSSODescriptor>
+      </md:EntityDescriptor>
+    sign_response: true
+    sign_assertion: true
+    encrypt_assertion: false
+    authorize:
+    - - email: ^[^@]+@example.com$

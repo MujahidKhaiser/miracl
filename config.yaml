@@ -1,0 +1,32 @@
+includes:
+  - core.yaml
+
+# example integrations
+#  - integrations/log.yaml
+#  - integrations/ldap.yaml
+#  - integrations/redis.yaml
+#  - integrations/memory.yaml
+#  - integrations/stats.yaml
+#  - integrations/pages_template.yaml
+#  - integrations/pages_url.yaml
+
+# example service providers
+  - service_providers/example_sp.yaml
+#  - service_providers/aws.yaml
+#  - service_providers/bamboo.yaml
+#  - service_providers/box.yaml
+#  - service_providers/datadog.yaml
+#  - service_providers/dropbox.yaml
+#  - service_providers/expensify.yaml
+#  - service_providers/github.yaml
+#  - service_providers/googledm.yaml
+#  - service_providers/google.yaml
+#  - service_providers/jira.yaml
+#  - service_providers/jivex.yaml
+#  - service_providers/office365.yaml
+#  - service_providers/okta.yaml
+#  - service_providers/otc.yaml
+#  - service_providers/salesforce.yaml
+#  - service_providers/samanage.yaml
+#  - service_providers/sap.yaml
+#  - service_providers/zabbix.yaml

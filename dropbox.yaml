@@ -1,0 +1,24 @@
+sp:
+  dropbox:
+    name: dropbox
+    description: Dropbox is a cloud storage provider
+    relay_state: ""
+    login_url: https://www.dropbox.com/login
+    logout_url: https://www.dropbox.com/logout
+    metadata: >-
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!-- dropbox doesnt provide a link to download its sp metadata, so
+            this is hand-crafted -->
+      <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="Dropbox">
+        <md:SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+          <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</md:NameIDFormat>
+          <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://www.dropbox.com/saml_login" index="0"/>
+        </md:SPSSODescriptor>
+      </md:EntityDescriptor>
+    sign_response: true
+    sign_assertion: false
+    encrypt_assertion: false
+    authorize:
+    - - email: ^[^@]+@example.com$
+    profile:
+      nameid: email

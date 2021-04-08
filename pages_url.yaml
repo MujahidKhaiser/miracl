@@ -1,0 +1,7 @@
+pages:
+  error:
+    url: https://example.com/error
+  logout:
+    url: https://example.com/logout
+  services:
+    url: https://example.com/services

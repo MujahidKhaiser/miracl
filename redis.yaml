@@ -1,0 +1,6 @@
+session:
+  store:
+    redis:
+      network: tcp
+      address: :6379
+      password: ""
